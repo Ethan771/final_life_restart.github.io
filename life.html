@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life Journey</title>
+<style>
+    body {
+      font-family: 'Open Sans', Arial, sans-serif;
+      background-color: #282c34; 
+      color: #abb2bf; 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #attributesDisplay, #lifeEvents {
+      background-color: #3c4049; 
+      color: #ffffff; 
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      margin: 20px;
+      width: 80%;
+      max-width: 800px;
+      text-align: left;
+      -webkit-user-select: none; 
+      -moz-user-select: none;   
+      -ms-user-select: none; 
+      user-select: none;
+    }
+
+    #summaryButton {
+      background-color: #61afef; 
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease;
+    }
+
+    #summaryButton:hover {
+      background-color: #5288c4; 
+    }
+
+    body {
+        margin-bottom: 40px; 
+    }
+    #lifeEvents {
+      overflow-y: auto;
+    }
+    .event {
+        -webkit-user-select: none; 
+        -moz-user-select: none;   
+        -ms-user-select: none; 
+        user-select: none;
+        margin-bottom: 10px; 
+    }
+  </style>
+</head>
+<body>
+<div id="attributesDisplay">
+  <div>Charm: <span id="charmValue">0</span></div>
+  <div>Intelligence: <span id="intelligenceValue">0</span></div>
+  <div>Strength: <span id="strengthValue">0</span></div>
+  <div>Money: <span id="moneyValue">0</span></div>
+</div>
+
+<div id="lifeEvents">
+  <!-- Life events will be displayed here -->
+</div>
+
+
+<script>
+  // Retrieve attributes from localStorage
+  document.getElementById('charmValue').textContent = localStorage.getItem('charm') || '0';
+  document.getElementById('intelligenceValue').textContent = localStorage.getItem('intelligence') || '0';
+  document.getElementById('strengthValue').textContent = localStorage.getItem('strength') || '0';
+  document.getElementById('moneyValue').textContent = localStorage.getItem('money') || '0';
+
+  const selectedTalents = JSON.parse(localStorage.getItem('selectedTalent')) || [];
+  let events = [];
+if (selectedTalents.includes('Mysterious box') && parseInt(document.getElementById('strengthValue').textContent)>7 ){
+  events = [
+  "0 years old: You were born on a stormy night.",
+  "1 year old: Your first word was 'light'.",
+  "2 years old: You took your first steps in your grandparents' house.",
+  "3 years old: You discovered a love for water, splashing in puddles every chance you got.",
+  "4 years old: You made a best friend at preschool.", 
+  "5 years old: You won a tricycle race.",
+  "6 years old: You lost your first tooth and were visited by the tooth fairy.",
+  "7 years old: You went on a camping trip and saw the Milky Way.",
+  "8 years old: You learned to play a musical instrument.",
+  "9 years old: You read your first chapter book by yourself.",
+  "10 years old: You scored the winning goal in a soccer game.",
+  "11 years old: You wrote and performed in your first play.",
+  "12 years old: You started middle school and joined a club.",
+  "13 years old: You went on your first roller coaster and loved it.",
+  "14 years old: You volunteered at a local animal shelter.",
+  "15 years old: You started learning a new language.",
+  "16 years old: You got your driver's license.",
+  "17 years old: You went to your first concert with friends.",
+  "18 years old: You voted in your first election.",
+  "19 years old: You started your first part-time job.",
+  "20 years old: You traveled abroad for the first time.",
+  "21 years old: You celebrated your 21st birthday with friends and family.",
+  "22 years old: You graduated from university and started your career.",
+  "23 years old: You moved into your first apartment.",
+  "24 years old: You adopted a pet.",
+  "25 years old: You started a personal project that you're passionate about.",
+  "26 years old: You ran a half-marathon.",
+  "27 years old: You took up a new hobby that became a significant part of your life.",
+  "28 years old: You bought your first car.",
+  "29 years old: You attended the wedding of a close friend.",
+  "30 years old: You traveled to a place you always wanted to visit.",
+  "31 years old: You learned a new skill that challenged you.",
+  "32 years old: You attended a major sports event.",
+  "33 years old: You started a small business or side venture.",
+  "34 years old: You volunteered for a cause you care about.",
+  "35 years old: You wrote a book or a significant piece of writing.",
+  "36 years old: You took a sabbatical to explore personal interests.",
+  "37 years old: You renovated your home to match your dream vision.",
+  "38 years old: You mentored someone and helped them grow.",
+  "39 years old: You learned to play a new musical instrument.",
+  "40 years old: You celebrated your 40th birthday with a memorable party.",
+  "41 years old: You took a trip with your closest friends.",
+  "42 years old: You learned a new language.",
+  "43 years old: You started a new career path.",
+  "44 years old: You learned to cook your favorite cuisine.",
+  "45 years old: You took up a new sport.",
+  "46 years old: You went on a road trip with your family.",
+  "47 years old: You learned to dance a new style.",
+  "48 years old: You started a new hobby.",
+  "49 years old: You learned to paint or draw.",
+  "50 years old: You celebrated your 50th birthday with a grand party.",
+  "51 years old: You took a trip with your extended family.",
+  "52 years old: You learned to code.",
+  "53 years old: You started a new business.",
+  "54 years old: You learned to play a new sport.",
+  "55 years old: You took a trip with your closest friends.",
+  "56 years old: You learned to cook a new cuisine.",
+  "57 years old: You took a trip with your extended family.",
+  "58 years old: You learned to dance a new style.",
+  "59 years old: You started a new hobby.",
+  "60 years old: You celebrated your 60th birthday with a grand party.",
+  "61 years old: You took a trip with your extended family.",
+  "62 years old: You learned to code.",
+  "63 years old: You started a new business.",
+  "64 years old: You learned to play a new sport.",
+  "65 years old: You took a trip with your closest friends.",
+  "66 years old: You learned to cook a new cuisine.",
+  "67 years old: You took a trip with your extended family.",
+  "68 years old: You learned to dance a new style.",
+  "69 years old: You started a new hobby.",
+  "70 years old: You celebrated your 70th birthday with a grand party.",
+  "71 years old: You took a trip with your extended family.",
+  "72 years old: You learned to code.",
+  "73 years old: You started a new business.",
+  "74 years old: You learned to play a new sport.",
+  "75 years old: You took a trip with your closest friends.",
+  "76 years old: You learned to cook a new cuisine.",
+  "77 years old: You took a trip with your extended family.",
+  "78 years old: You learned to dance a new style.",
+  "79 years old: You started a new hobby.",
+  "80 years old: You celebrated your 80th birthday with a grand party.",
+  "81 years old: You took a trip with your extended family.",
+  "82 years old: You learned to code.",
+  "83 years old: You started a new business.",
+  "84 years old: You learned to play a new sport.",
+  "85 years old: You took a trip with your closest friends.",
+  "86 years old: You learned to cook a new cuisine.",
+  "87 years old: You took a trip with your extended family.",
+  "88 years old: You learned to dance a new style.",
+  "89 years old: You started a new hobby.",
+  "90 years old: You celebrated your 90th birthday with a grand party.",
+  "91 years old: You took a trip with your extended family.",
+  "92 years old: You learned to code.",
+  "93 years old: You started a new business.",
+  "94 years old: You learned to play a new sport.",
+  "95 years old: You took a trip with your closest friends.",
+  "96 years old: You learned to cook a new cuisine.",
+  "97 years old: You took a trip with your extended family.",
+  "98 years old: You learned to dance a new style.",
+  "99 years old: You started a new hobby.",
+  "100 years old: You celebrated your 100th birthday with a grand party and open the mystery box which is the book of mystery of Tai Chi.",
+  "101 years old: You read the book of mystery of Tai Chi and you are very excited.",
+  "102 years old: You start to practice Tai Chi.",
+  "103 years old: You continue to practice Tai Chi.",
+  "104 years old: You continue to practice Tai Chi.",
+  "105 years old: You witness a powerful cultivator saving your village from disaster, igniting your aspiration to pursue the path of Tai Chi.",
+  "106 years old: You continue to practice Tai Chi.",
+  "107 years old: You continue to practice Tai Chi.",
+  "108 years old: You continue to practice Tai Chi.",
+  "109 years old: You continue to practice Tai Chi.",
+  "110 years old: You begin your training under a local Taoist hermit.",
+  "111 years old: You continue to practice Tai Chi.",
+  "112 years old: You continue to practice Tai Chi.",
+  "113 years old: You continue to practice Tai Chi.",
+  "114 years old: You continue to practice Tai Chi.",
+  "115 years old: After years of diligent practice, you experience your first breakthrough, cultivating your Tai Chi to a higher realm.",
+  "116 years old: You continue to practice Tai Chi.",
+  "117 years old: You continue to practice Tai Chi.",
+  "118 years old: You leave your village to join a renowned sect, where you train in advanced cultivation techniques and ancient wisdom.",
+  "119 years old: You continue to practice Tai Chi.",
+  "120 years old: You continue to practice Tai Chi.",
+  "121 years old: You continue to practice Tai Chi.",
+  "122 years old: You continue to practice Tai Chi.",
+  "123 years old: You continue to practice Tai Chi.",
+  "124 years old: You continue to practice Tai Chi.",
+  "125 years old: You embark on a perilous journey to retrieve a rare celestial herb, facing numerous trials and demon beasts, proving your courage and determination.",
+  "126 years old: You continue to practice Tai Chi.",
+  "127 years old: You continue to practice Tai Chi.",
+  "128 years old: You continue to practice Tai Chi.",
+  "129 years old: You continue to practice Tai Chi.",
+  "130 years old: You attain a reputation as a powerful cultivator, mastering the art of swordsmanship and elemental manipulation.",
+  "131 years old: You continue to practice Tai Chi.",
+  "132 years old: You continue to practice Tai Chi.",
+  "133 years old: You continue to practice Tai Chi.",
+  "134 years old: You continue to practice Tai Chi.",
+  "135 years old: A romantic relationship with a fellow cultivator blossoms, adding a new depth to your life journey.",
+  "136 years old: You continue to practice Tai Chi.",
+  "137 years old: You continue to practice Tai Chi.",
+  "138 years old: You continue to practice Tai Chi.",
+  "139 years old: You continue to practice Tai Chi.",
+  "140 years old: You confront a major demonic threat, protecting the mortal realm, which earns you respect and fame across different sects.",
+  "141 years old: You continue to practice Tai Chi.",
+  "142 years old: You continue to practice Tai Chi.",
+  "143 years old: You continue to practice Tai Chi.",
+  "144 years old: You continue to practice Tai Chi.",
+  "145 years old: Tragedy strikes as your loved one is taken by a rival faction, leading you to embark on a dangerous rescue mission.",
+  "146 years old: You continue to practice Tai Chi.",
+  "147 years old: You continue to practice Tai Chi.",
+  "148 years old: You continue to practice Tai Chi.",
+  "149 years old: You continue to practice Tai Chi.",
+  "150 years old: After decades of cultivation, you achieve the esteemed status of Nascent Soul, allowing you to manipulate life force and energy at will.",
+  "151 years old: You continue to practice Tai Chi.",
+  "152 years old: You continue to practice Tai Chi.",
+  "153 years old: You continue to practice Tai Chi.",
+  "154 years old: You continue to practice Tai Chi.",
+  "155 years old: You continue to practice Tai Chi.",
+  "156 years old: You continue to practice Tai Chi.",
+  "157 years old: You continue to practice Tai Chi.",
+  "158 years old: You continue to practice Tai Chi.",
+  "159 years old: You continue to practice Tai Chi.",
+  "160 years old: You discover ancient texts that lead you to a hidden realm, where you gain profound insights into the mysteries of the universe.",
+  "161 years old: You continue to practice Tai Chi.",
+  "162 years old: You continue to practice Tai Chi.",
+  "163 years old: You continue to practice Tai Chi.",
+  "164 years old: You continue to practice Tai Chi.",
+  "165 years old: You continue to practice Tai Chi.",
+  "166 years old: You continue to practice Tai Chi.",
+  "167 years old: You continue to practice Tai Chi.",
+  "168 years old: You continue to practice Tai Chi.",
+  "169 years old: You continue to practice Tai Chi.",
+  "170 years old: Your mastery over the elements enables you to create a sanctuary, where you begin to teach and guide young cultivators.",
+  "171 years old: You continue to practice Tai Chi.",
+  "172 years old: You continue to practice Tai Chi.",
+  "173 years old: You continue to practice Tai Chi.",
+  "174 years old: You continue to practice Tai Chi.",
+  "175 years old: You continue to practice Tai Chi.",
+  "176 years old: You continue to practice Tai Chi.",
+  "177 years old: You continue to practice Tai Chi.",
+  "178 years old: You continue to practice Tai Chi.",
+  "179 years old: You continue to practice Tai Chi.",
+  "180 years old: You ascend to a higher plane of existence after achieving the pinnacle of Tai Chi, leaving behind a legacy that inspires future generations.",
+  "181 years old: You continue to practice Tai Chi.",
+  "182 years old: You continue to practice Tai Chi.",
+  "183 years old: You continue to practice Tai Chi.",
+  "184 years old: You continue to practice Tai Chi.",
+  "185 years old: You continue to practice Tai Chi.",
+  "186 years old: You continue to practice Tai Chi.",
+  "187 years old: You continue to practice Tai Chi.",
+  "188 years old: You break through the age limitation of 200 years old.",
+  "189 years old: You continue to practice Tai Chi.",
+  "190 years old: You continue to practice Tai Chi.",
+  "191 years old: You continue to practice Tai Chi.",
+  "192 years old: You continue to practice Tai Chi.",
+  "193 years old: You continue to practice Tai Chi.",
+  "194 years old: You continue to practice Tai Chi.",
+  "195 years old: You continue to practice Tai Chi.",
+  "196 years old: You continue to practice Tai Chi.",
+  "197 years old: You continue to practice Tai Chi.",
+  "198 years old: You continue to practice Tai Chi.",
+  "199 years old: You continue to practice Tai Chi.",
+  "200 years old: You continue to practice Tai Chi.",
+  "201 years old: You continue to practice Tai Chi.",
+  "202 years old: You continue to practice Tai Chi.",
+  "203 years old: You continue to practice Tai Chi.",
+  "204 years old: You continue to practice Tai Chi.",
+  "205 years old: You make a breakthrough in Tai Chi and become a Tai Chi master.",
+  "206 years old: You continue to practice Tai Chi.",
+  "207 years old: You continue to practice Tai Chi.",
+  "208 years old: You continue to practice Tai Chi.",
+  "209 years old: You continue to practice Tai Chi.",
+  "210 years old: You continue to practice Tai Chi.",
+  "211 years old: You are defeated by a devil cultivator and you pass away.",
+]; 
+localStorage.setItem('lifeLength', '211');
+}else if(selectedTalents.includes('Mysterious box') && parseInt(document.getElementById('strengthValue').textContent)>7 ){
+  events = [
+  "0 years old: You were born on a stormy night.",
+  "1 year old: Your first word was 'light'.",
+  "2 years old: You took your first steps in your grandparents' house.",
+  "3 years old: You discovered a love for water, splashing in puddles every chance you got.",
+  "4 years old: You made a best friend at preschool.",
+  "5 years old: You won a tricycle race.",
+  "6 years old: You lost your first tooth and were visited by the tooth fairy.",
+  "7 years old: You went on a camping trip and saw the Milky Way.",
+  "8 years old: You learned to play a musical instrument.",
+  "9 years old: You read your first chapter book by yourself.",
+  "10 years old: You scored the winning goal in a soccer game.",
+  "11 years old: You wrote and performed in your first play.",
+  "12 years old: You started middle school and joined a club.",
+  "13 years old: You went on your first roller coaster and loved it.",
+  "14 years old: You volunteered at a local animal shelter.",
+  "15 years old: You started learning a new language.",
+  "16 years old: You got your driver's license.",
+  "17 years old: You went to your first concert with friends.",
+  "18 years old: You voted in your first election.",
+  "19 years old: You started your first part-time job.",
+  "20 years old: You traveled abroad for the first time.",
+  "21 years old: You celebrated your 21st birthday with friends and family.",
+  "22 years old: You graduated from university and started your career.",
+  "23 years old: You moved into your first apartment.",
+  "24 years old: You adopted a pet.",
+  "25 years old: You started a personal project that you're passionate about.",
+  "26 years old: You ran a half-marathon.",
+  "27 years old: You took up a new hobby that became a significant part of your life.",
+  "28 years old: You bought your first car.",
+  "29 years old: You attended the wedding of a close friend.",
+  "30 years old: You traveled to a place you always wanted to visit.",
+  "31 years old: You learned a new skill that challenged you.",
+  "32 years old: You attended a major sports event.",
+  "33 years old: You started a small business or side venture.",
+  "34 years old: You volunteered for a cause you care about.",
+  "35 years old: You wrote a book or a significant piece of writing.",
+  "36 years old: You took a sabbatical to explore personal interests.",
+  "37 years old: You renovated your home to match your dream vision.",
+  "38 years old: You mentored someone and helped them grow.",
+  "39 years old: You learned to play a new musical instrument.",
+  "40 years old: You celebrated your 40th birthday with a memorable party.",
+  "41 years old: You took a trip with your closest friends.",
+  "42 years old: You learned a new language.",
+  "43 years old: You started a new career path.",
+  "44 years old: You learned to cook your favorite cuisine.",
+  "45 years old: You took up a new sport.",
+  "46 years old: You went on a road trip with your family.",
+  "47 years old: You learned to dance a new style.",
+  "48 years old: You started a new hobby.",
+  "49 years old: You learned to paint or draw.",
+  "50 years old: You celebrated your 50th birthday with a grand party.",
+  "51 years old: You took a trip with your extended family.",
+  "52 years old: You learned to code.",
+  "53 years old: You started a new business.",
+  "54 years old: You learned to play a new sport.",
+  "55 years old: You took a trip with your closest friends.",
+  "56 years old: You learned to cook a new cuisine.",
+  "57 years old: You took a trip with your extended family.",
+  "58 years old: You learned to dance a new style.",
+  "59 years old: You started a new hobby.",
+  "60 years old: You celebrated your 60th birthday with a grand party.",
+  "61 years old: You took a trip with your extended family.",
+  "62 years old: You learned to code.",
+  "63 years old: You started a new business.",
+  "64 years old: You learned to play a new sport.",
+  "65 years old: You took a trip with your closest friends.",
+  "66 years old: You learned to cook a new cuisine.",
+  "67 years old: You took a trip with your extended family.",
+  "68 years old: You learned to dance a new style.",
+  "69 years old: You started a new hobby.",
+  "70 years old: You celebrated your 70th birthday with a grand party.",
+  "71 years old: You took a trip with your extended family.",
+  "72 years old: You learned to code.",
+  "73 years old: You started a new business.",
+  "74 years old: You learned to play a new sport.",
+  "75 years old: You took a trip with your closest friends.",
+  "76 years old: You learned to cook a new cuisine.",
+  "77 years old: You fall hard and die peacefully."];
+  localStorage.setItem('lifeLength', '77');
+}else if(selectedTalents.includes('About Time') && parseInt(document.getElementById('charmValue').textContent)>5){
+    events = ["0 years old: You are a boy born in a quaint Cornish home, welcomed by a loving family.",
+    "1 year old: You take your first steps, learning to walk with the help of your parents.",
+    "2 years old: You develop a love for the outdoors, often playing in the garden with your dog.",
+    "3 years old: You develop a joy for playing in the sand on the beach near your home.",
+    "4 years old: You watch your father play tennis, developing an interest in the sport.",
+    "5 years old: You start school, making your first friends and learning new things.",
+    "6 years old: You lost your first tooth and were visited by the tooth fairy.",
+    "7 years old: You take up a hobby in drawing, filling your notebooks with sketches.",
+    "8 years old: You start playing tennis with your father, developing a passion for the sport.",
+    "9 years old: You start playing football with your friends, enjoying the thrill of the game.",
+    "10 years old: You experience your first awkward crush, beginning to understand the complexities of love.",
+    "11 years old: You start secondary school, making new friends and learning new subjects.",
+    "12 years old: You win a school science fair with a project on the solar system.",
+    "13 years old: You experience the loss of a close family member, shaping your understanding of memory and loss.",
+    "14 years old: You start playing guitar, learning to play your favorite songs.",
+    "15 years old: You go through the typical teenage phase of angst and confusion.",
+    "16 years old: You start dating, experiencing the ups and downs of young love.",
+    "17 years old: You start driving, enjoying the freedom of the open road.",
+    "18 years old: Your father reveals the family secret of time travel to you in a heart-to-heart talk.",
+    "19 years old: You first experience time travel, learning to control your ability.",
+    "20 years old: You move to London to study law, experiencing city life for the first time.",
+    "21 years old: You work hard at university.",
+    "22 years old: You meet Mary under unusual circumstances and feel an instant connection.",
+    "23 years old: Your ability of time travel mess up the date with Mary.",
+    "22 years old: You use time travel back to perfect your courtship with Mary, creating perfect dates.",
+    "23 years old: You experience the daily grind of your first job at a law firm.",
+    "24 years old: You propose to Mary after meeting your first love, and she accepts.",
+    "25 years old: You get married to Mary in a rainy day, and you are happy.",
+    "26 years old: You face the ups and downs of maintaining a serious relationship while balancing a career.",
+    "27 years old: You and Mary decide to start a family, welcoming your first child.",
+    "28 years old: You learn valuable lessons about the limitations and responsibilities of time travel.",
+    "29 years old: You celebrate the birth of your first child, a life-changing moment.",
+    "30 years old: You take a family trip to the countryside, enjoying simple pleasures.",
+    "31 years old: You experience the joy of teaching your child how to ride a bike.",
+    "32 years old: You face a significant family crisis, reevaluating what's truly important in life.",
+    "33 years old: You and Mary decide to have another child, expanding your family.",
+    "34 years old: You embrace the joys and challenges of fatherhood.",
+    "35 years old: You decide to reduce your use of time travel, focusing on living in the present.",
+    "36 years old: You celebrate your 10th wedding anniversary with a romantic getaway.",
+    "37 years old: You start a new hobby in gardening, finding peace in nature.",
+    "38 years old: Your dad passes away, leaving behind a legacy of love and wisdom, and you meet him many times with the ability of time travel",
+    "39 years old: You mentor a young colleague at work, sharing your knowledge and experiences.",
+    "40 years old: You celebrate your 40th birthday.",
+    "41 years old: You start a book club with friends, reigniting your love for reading.",
+    "42 years old: You take up a new hobby in painting, exploring your creative side.",
+    "43 years old: You experience the joy of teaching your child how to ride a bike.",
+    "44 years old: You decide not to use time travel anymore, focusing on living in the present.",
+    "45 years old: You celebrate your 20th wedding anniversary with a romantic getaway.",
+    "46 years old: You start a new hobby in gardening, finding peace in nature.",
+    "47 years old: You become more involved in community activities, valuing local connections.",
+    "48 years old: You mentor a young colleague at work, sharing your knowledge and experiences.",
+    "49 years old: You talk the time travel with your child, and he/she is very excited.",
+    "50 years old: You throw a grand party for your 50th birthday, surrounded by friends and family.",
+    "51 years old: You start a book club with friends, reigniting your love for reading.",
+    "52 years old: You take up painting, exploring your creative side.",
+    "53 years old: You see your child travel back in time to save you from a car accident.",
+    "54 years old: You become a grandparent, welcoming a new generation into your family.",
+    "55 years old: You celebrate your 30th wedding anniversary with a romantic getaway.",
+    "56 years old: You start writing memoirs, documenting your unique life experiences.",
+    "57 years old: You become more involved in community activities, valuing local connections.",
+    "58 years old: You travel to a destination you've always dreamed of visiting.",
+    "59 years old: You miss your father and decide to use time travel to meet him again.",
+    "60 years old: You retire from your career, looking forward to new adventures.",
+    "61 years old: You miss your grandfather and decide to use time travel to meet him again.",
+    "62 years old: You volunteer for a cause you're passionate about, giving back to the community.",
+    "63 years old: You stuck in time travel, and your child save you.",
+    "64 years old: You save your child from a car accident with the ability of time travel.",
+    "65 years old: You take up a new musical instrument, challenging yourself to learn.",
+    "66 years old: You begin a project to restore a classic car, embracing a long-held interest.",
+    "67 years old: You took a trip with your extended family.",
+    "68 years old: You learned to dance a new style.",
+    "69 years old: You started a new hobby.",
+    "70 years old: You celebrate your 70th birthday with a huge family reunion.",
+    "71 years old: You took a trip with your friend.",
+    "72 years old: You start a small garden, enjoying the tranquility of nature.",
+    "73 years old: You learned to code.",
+    "74 years old: You started a new business.",
+    "75 years old: You become a great-grandparent, witnessing the joy of a growing family.",
+    "76 years old: You took a trip with your extended family.",
+    "77 years old: You revisit old hobbies, finding comfort in familiar pastimes.",
+    "78 years old: Your son go back to see you with the ability of time travel.",
+    "79 years old: You start a small garden, enjoying the tranquility of nature.",
+    "80 years old: You celebrate a quiet but meaningful 80th birthday, reflecting on a life well-lived.",
+    "81 years old: You learn to read Tarot cards, finding a new passion for divination.",
+    "82 years old: You spend more time with family, cherishing every moment together.",
+    "85 years old: You pass away peacefully, leaving behind a legacy of love, adventure, and the extraordinary impact of a life fully embraced."];
+  localStorage.setItem('lifeLength', '85');
+}else if(selectedTalents.includes('About Time') && parseInt(document.getElementById('charmValue').textContent)<=5){
+    events = ["0 years old: You are a boy born in a quaint Cornish home, welcomed by a loving family.",
+    "1 year old: You take your first steps, learning to walk with the help of your parents.",
+    "2 years old: You develop a love for the outdoors, often playing in the garden with your dog.",
+    "3 years old: You develop a joy for playing in the sand on the beach near your home.",
+    "4 years old: You watch your father play tennis, developing an interest in the sport.",
+    "5 years old: You start school, making your first friends and learning new things.",
+    "6 years old: You lost your first tooth and were visited by the tooth fairy.",
+    "7 years old: You take up a hobby in drawing, filling your notebooks with sketches.",
+    "8 years old: You start playing tennis with your father, developing a passion for the sport.",
+    "9 years old: You start playing football with your friends, enjoying the thrill of the game.",
+    "10 years old: You experience your first awkward crush, beginning to understand the complexities of love.",
+    "11 years old: You start secondary school, making new friends and learning new subjects.",
+    "12 years old: You win a school science fair with a project on the solar system.",
+    "13 years old: You experience the loss of a close family member, shaping your understanding of memory and loss.",
+    "14 years old: You start playing guitar, learning to play your favorite songs.",
+    "15 years old: You go through the typical teenage phase of angst and confusion.",
+    "16 years old: You start dating, experiencing the ups and downs of young love.",
+    "17 years old: You start driving, enjoying the freedom of the open road.",
+    "18 years old: Your father reveals the family secret of time travel to you in a heart-to-heart talk.",
+    "19 years old: You first experience time travel, learning to control your ability.",
+    "20 years old: You move to London to study law, experiencing city life for the first time.",
+    "21 years old: You work hard at university.",
+    "22 years old: You meet Mary under unusual circumstances and feel an instant connection.",
+    "23 years old: Your ability of time travel mess up the date with Mary.",
+    "22 years old: You use time travel back to perfect your courtship with Mary, but it doesn't end well.",
+    "23 years old: You experience the daily grind of your first job at a law firm.",
+    "24 years old: You miss Mary and decide to use time travel to meet her again.",
+    "25 years old: You lost yourself in the memory of Mary, and you are very sad.",
+    "26 years old: You run into a car accident, and you die."];
+  localStorage.setItem('lifeLength', '26');
+  }else if(selectedTalents.includes('Inception')&& parseInt(document.getElementById('intelligenceValue').textContent)>6){
+    events = ["0 years old: You are born into a modest family with a passion for travel and exploration.",
+    "1 years old: You take your first steps, learning to walk with the help of your parents.",
+    "2 years old: You develop a love for the outdoors, often playing in the garden with your dog.",
+    "3 years old: You develop a joy for playing in the sand on the beach near your home.",
+    "4 years old: You develop a vivid imagination, often found building intricate structures with blocks.",
+    "5 years old: You start school, making your first friends and learning new things.",
+    "6 years old: You start playing football with your friends, enjoying the thrill of the game.",
+    "7 years old: You win a school art competition with a dream-inspired painting.",
+    "8 years old: You start playing tennis with your father, developing a passion for the sport.",
+    "9 years old: You start playing chess, enjoying the mental challenge of the game.",
+    "10 years old: You become fascinated with puzzles and mazes, spending hours solving them.",
+    "11 years old: You start secondary school, making new friends and learning new subjects.",
+    "12 years old: You win a school science fair with a project on the solar system.",
+    "13 years old: You experience the loss of a close family member, shaping your understanding of memory and loss.",
+    "14 years old: You start playing guitar, learning to play your favorite songs.",
+    "15 years old: You go through the typical teenage phase of angst and confusion.",
+    "16 years old: You show a keen interest in psychology and philosophy, reading extensively on both subjects.",
+    "17 years old: You start driving, enjoying the freedom of the open road.",
+    "18 years old: You enter college, majoring in architecture and minoring in psychology.",
+    "19 years old: You like psychology and philosophy, and you want to be a psychologist.",
+    "21 years old: You meet Mal, your future wife, and form a deep, instantaneous connection.",
+    "22 years old: You graduate from college and start your graduate studies.",
+    "23 years old: You start to learn about dream psychology and the subconscious, developing a keen interest in the subject.",
+    "24 years old: You start experimenting with dream sharing technology during your postgraduate studies.",
+    "25 years old: You meet Arthur, your future business partner, and start working together on dream sharing technology.",
+    "26 years old: You marry Mal and start a career in corporate espionage using dream extraction.",
+    "27 years old: You spend your whole year in your dream world with Mal, and you are very happy.",
+    "28 years old: The birth of your first child, a moment that profoundly affects your perspective on life.",
+    "29 years old: You spend another year in your dream world with Mal, and you are very happy.",
+    "30 years old: You spend another year in your dream world with Mal, and you are very happy.",
+    "31 years old: Mal commit suicide in the real world because she cannot recognize the difference between two worlds, and you are very sad.",
+    "32 years old: You become internationally wanted, forcing you to leave your children behind and flee.",
+    "33 years old: You are struggled with your career and you believes about the real world.",
+    "34 years old: You assemble a team for a high-stakes inception mission, hoping it will be your path to redemption.",
+    "35 years old: You confront your past and inner demons during the inception mission, reshaping your understanding of reality and dreams.",
+    "36 years old: Following the mission's outcome, you focus on rebuilding your life and seeking a reunion with your children.",
+    "37 years old: You become a consultant, using your unique skills to teach about the subconscious and dream manipulation.",
+    "38 years old: You write a book about your experiences, contributing to the field of dream psychology.",
+    "39 years old: You start a small research company, exploring further applications of dream sharing technology.",
+    "40 years old: You become a mentor to young architects and psychologists, sharing your knowledge and experiences.",
+    "41 years old: You dedicate yourself to advanced dream research, exploring deeper levels of the subconscious.",
+    "42 years old: You develop a new, cutting-edge dream sharing technology, allowing for longer and more stable dream states.",
+    "43 years old: You begin a personal project, creating a dream world where all your happiest memories reside.",
+    "44 years old: You still miss your wife, and you decide to use the dream sharing technology to meet her again.",
+    "45 years old: You die in your dream world with Mal, and you are very happy."];
+  localStorage.setItem('lifeLength', '45');
+}else if(selectedTalents.includes('Inception')&& parseInt(document.getElementById('intelligenceValue').textContent)<=6){
+    events = ["0 years old: You are born into a modest family with a passion for travel and exploration.",
+    "1 years old: You take your first steps, learning to walk with the help of your parents.",
+    "2 years old: You develop a love for the outdoors, often playing in the garden with your dog.",
+    "3 years old: You develop a joy for playing in the sand on the beach near your home.",
+    "4 years old: You develop a vivid imagination, often found building intricate structures with blocks.",
+    "5 years old: You start school, making your first friends and learning new things.",
+    "6 years old: You start playing football with your friends, enjoying the thrill of the game.",
+    "7 years old: You win a school art competition with a dream-inspired painting.",
+    "8 years old: You start playing tennis with your father, developing a passion for the sport.",
+    "9 years old: You start playing chess, enjoying the mental challenge of the game.",
+    "10 years old: You become fascinated with puzzles and mazes, spending hours solving them.",
+    "11 years old: You start secondary school, making new friends and learning new subjects.",
+    "12 years old: You win a school science fair with a project on the solar system.",
+    "13 years old: You experience the loss of a close family member, shaping your understanding of memory and loss.",
+    "14 years old: You start playing guitar, learning to play your favorite songs.",
+    "15 years old: You go through the typical teenage phase of angst and confusion.",
+    "16 years old: You show a keen interest in psychology and philosophy, reading extensively on both subjects.",
+    "17 years old: You start driving, enjoying the freedom of the open road.",
+    "18 years old: You didn't make it to enter the college.",
+    "19 years old: You start working as a construction worker.",
+    "20 years old: You start to learn about dream psychology and the subconscious, developing a keen interest in the subject.",
+    "21 years old: You meet Mal, your future wife, and form a deep, instantaneous connection.",
+    "22 years old: You marry Mal and start a career in corporate espionage using dream extraction.",
+    "23 years old: You meet Arthur, your future business partner, and start working together on dream sharing technology.",
+    "24 years old: You and Arthur start a company, specializing in dream sharing technology.",
+    "25 years old: You spend your whole year in your dream world with Mal, and you are very happy.",
+    "26 years old: The birth of your first child, a moment that profoundly affects your perspective on life.",
+    "27 years old: You spend another year in your dream world with Mal, and you are very happy.",
+    "28 years old: You spend another year in your dream world with Mal, and you are very happy.",
+    "29 years old: You and Mal commit suicide in the real world because you cannot recognize the difference between two worlds."];
+    localStorage.setItem('lifeLength', '29');
+}else if(selectedTalents.includes('The Lord of the Rings')){
+    events = [
+    "0 years old: You are born in the Shire to Drogo Baggins and Primula Brandybuck, in a family known for its love of adventure and stories.",
+    "4 years old: Your curiosity and love for nature become evident as you explore the green hills and streams of the Shire.",
+    "6 years old: You first hear the tales of Bilbo Baggins' adventures, sparking your imagination and sense of wonder.",
+    "8 years old: You develop a close friendship with your cousins, Merry Brandybuck and Pippin Took, sharing many playful adventures.",
+    "10 years old: You experience the loss of your parents in a boating accident, a defining and sorrowful moment in your young life.",
+    "12 years old: You are adopted by Bilbo Baggins and move to Bag End, where you are introduced to a world of books, maps, and foreign languages.",
+    "15 years old: You begin to learn about the Elves and their language under Bilbo's tutelage, developing a deep fascination with Elvish culture.",
+    "20 years old: You become known for your kindness and thoughtfulness, often helping your fellow Hobbits in the Shire.",
+    "25 years old: Your wanderlust grows as you listen to Bilbo's stories of dragons, dwarves, and distant lands.",
+    "30 years old: You inherit the One Ring from Bilbo on his 111th birthday, unaware of its true nature and power.",
+    "33 years old: You come of age as a Hobbit, and begin to notice the peculiar effects of the Ring and its influence on Bilbo.",
+    "36 years old: Gandalf the Grey returns to the Shire and reveals to you the true nature of the Ring. You understand the danger it poses.",
+    "38 years old: You start making secret preparations for your journey, as advised by Gandalf, to leave the Shire and the Ring to Rivendell.",
+    "50 years old: Your quest to destroy the Ring begins. You set out from the Shire with Sam, Merry, and Pippin, embarking on a perilous journey.",
+    "51 years old: You join the Fellowship of the Ring at Rivendell. The journey takes you through treacherous paths, from Moria to Lothlórien.",
+    "51 years old: The Fellowship faces betrayal and loss. You decide to continue the quest to Mordor with only Sam to accompany you.",
+    "51 years old: You face immense challenges, from the temptation of the Ring to the pursuit by Gollum and orcs.",
+    "51 years old: Your physical and mental strength are pushed to their limits as you reach Mount Doom.",
+    "51 years old: The Ring is finally destroyed in the fires of Mount Doom, but not without great personal cost to you.",
+    "52 years old: You return to the Shire and try to adjust to normal life, but the scars of your journey run deep.",
+    "52 years old: You work with Sam, Merry, and Pippin to heal the Shire from the troubles that occurred in your absence.",
+    "53 years old: Feeling the lasting effects of the Ring and your journey, you depart Middle-earth from the Grey Havens with Gandalf, Bilbo, and the Elves, seeking peace and healing in the Undying Lands.",
+    "54 years old: Arriving in the Undying Lands, a place of ancient beauty and tranquility, you begin to find solace and gradual healing from the scars left by the Ring.",
+    "56 years old: You spend your days exploring the lush landscapes of the Undying Lands, learning from the Elves and other ancient beings.",
+    "60 years old: You develop a close bond with the Elves, immersing yourself in their culture, arts, and deep wisdom. You learn to write in Elvish and begin documenting your reflections and experiences in a new volume.",
+    "65 years old: You often walk by the shores, reflecting on your adventures, the friends you left behind, and the changing tides of the world.",
+    "70 years old: You become a respected figure among the inhabitants of the Undying Lands, known for your humility, wisdom, and the sacrifices you made.",
+    "75 years old: You continue to write, your works becoming a blend of Shire folklore and Elvish lore, a unique legacy of your life's journey.",
+    "80 years old: You find a deep sense of peace and contentment, having come to terms with your past and the role you played in the history of Middle-earth.",
+    "85 years old: You remain in good health, but start feeling the weight of your years, a natural course even in the Undying Lands for a Hobbit.",
+    "90 years old: You begin to teach the younger Elves and other beings about the history of Middle-earth, ensuring that the stories and lessons of the past are not forgotten.",
+    "95 years old: You start spending more time in solitude, enjoying the quiet beauty of the world around you, and often reminiscing about the Shire.",
+    "100 years old: You celebrate a century of life, a remarkable milestone, surrounded by friends and loved ones in the Undying Lands.",
+    "105 years old: As you age, your thoughts often drift back to the Shire, Samwise, and your other friends, hoping they lived full and happy lives.",
+    "110 years old: You pass away peacefully in your sleep, your life a tale of courage, friendship, and the power of resilience. Your legacy is remembered and cherished in the Undying Lands and beyond."];
+  localStorage.setItem('lifeLength', '110');
+}else if(selectedTalents.includes('Benjamin Button')){
+    events = ["100 years old: You are born in an unusual condition, with the appearance and health issues of a 100-year-old man, yet you have the mental capacity of a newborn.",
+    "95 years old: Despite your advanced physical age, you exhibit the playfulness and learning abilities of a 5-year-old child.",
+    "90 years old: You appear as an 90-year-old, but with the curiosity and energy of a 10-year-old, attending school for the first time.",
+    "85 years old: You physically resemble a person in their mid-eighties, yet you engage in teenage activities, trying to fit in with peers.",
+    "80 years old: Your physical age is that of an 80-year-old, but mentally you are in your late teens, grappling with complex emotions and relationships.",
+    "70 years old: At a physical age of 70, you experience the vigor and ambitions of a young adult in their 30s, possibly starting a career or exploring relationships.",
+    "60 years old: You look like someone in their 60s, but with the mindset and lifestyle of someone in their 40s, facing mid-life challenges and achievements.",
+    "50 years old: Physically aging in reverse to 50, you live the life of someone in their 50s, maybe having a family or reaching career peaks.",
+    "40 years old: At 40, your appearance aligns closer with societal norms for your mental age. You might be enjoying stability in family and career.",
+    "30 years old: You are physically a 30-year-old but with the wisdom and experience of someone much older, possibly embarking on new ventures or revisiting old dreams.",
+    "25 years old: As a 25-year-old, you relive the youthful energy and freedom of your 70s, perhaps traveling or pursuing passions with vigor.",
+    "20 years old: Your physical age is now 20, experiencing the independence and exploration typical of someone in their 80s, but with a youthful body.",
+    "15 years old: You appear as a teenager, but with the life experience and perspective of someone in their late 80s, navigating the complexities of adolescence with unique wisdom.",
+    "10 years old: At a physical age of 10, your mental maturity is akin to someone in their 90s, balancing childlike wonder with a lifetime of memories.",
+    "5 years old: You are now a young child, yet you possess the knowledge and experiences of a centenarian, a paradoxical blend of innocence and insight.",
+    "0 years old: Your journey concludes as you regress to an infant in appearance, with a full century's worth of experiences, closing the unique cycle of your life."];
+  localStorage.setItem('lifeLength', '100');
+}else if(selectedTalents.includes('Doraemon')){
+    events = ["0 years old: You are born to a family of explorers and dreamers, igniting a lifelong passion for adventure and discovery.",
+    "5 years old: Discovering the Anywhere Door in your attic, your first adventure is to a chocolate factory, a child's dream come true.",
+    "10 years old: You visit the pyramids of Egypt, wandering through ancient tombs and learning about the pharaohs.",
+    "15 years old: A school project takes you to the Great Barrier Reef, snorkeling among the corals and marine life.",
+    "18 years old: Your love for adventure takes you to the Amazon Rainforest, meeting exotic wildlife and learning from indigenous tribes.",
+    "20 years old: A journey to the Moon lets you walk in the footsteps of astronauts, marveling at the Earth from space.",
+    "21 years old: You experience the art and history of Paris, spending days in the Louvre and nights along the Seine.",
+    "25 years old: The Northern Lights in Iceland leave you spellbound under the dancing colors of the night sky.",
+    "28 years old: You set foot on Mars, exploring its red valleys and the largest volcano in the solar system.",
+    "30 years old: Climbing Mount Everest, you gaze upon the world from its highest peak, feeling a sense of accomplishment and awe.",
+    "34 years old: You explore Jupiter's moon Europa, contemplating life beneath its icy crust.",
+    "35 years old: A visit to Machu Picchu has you walking ancient Incan paths, enveloped in mystery and history.",
+    "40 years old: You experience zero gravity at the International Space Station, viewing Earth from a unique perspective.",
+    "45 years old: Your culinary journey in Italy includes the best pizza in Naples and gelato in Florence.",
+    "49 years old: Saturn's rings offer a spectacular view of the gas giant, a breathtaking and once-in-a-lifetime experience.",
+    "50 years old: Walking the Great Wall of China, you reflect on human perseverance and history.",
+    "55 years old: An Antarctic expedition brings you face-to-face with penguins and seals in their natural habitat.",
+    "60 years old: A Zen monastery in Japan offers peace and meditation, a chance to reflect on your life's adventures.",
+    "63 years old: Venus' cloud cities amaze you with visions of the future, as you float above its surface.",
+    "65 years old: The colorful markets and rich culture of Marrakech enchant you, adding to your tapestry of experiences.",
+    "68 years old: Witnessing the heart-shaped glacier on Pluto, you marvel at the wonders of our solar system.",
+    "70 years old: Watching the Great Migration in the Serengeti, you're awestruck by the spectacle of nature.",
+    "74 years old: Traveling beyond the solar system, you visit a newly discovered exoplanet, feeling both small and vast in the cosmos.",
+    "80 years old: A nebula visit shows you the birthplace of stars, a humbling and awe-inspiring sight.",
+    "85 years old: Your final journey takes you to the edge of the observable universe, a reflective and profound experience that encapsulates the vastness and beauty of your adventures.",
+    "90 years old: You pass away peacefully, surrounded by memories of a life filled with incredible journeys, both on Earth and in the stars, your legacy living on in the stories and inspiration you've left behind."];
+  localStorage.setItem('lifeLength', '90');
+}else if(selectedTalents.includes('Six Sense')){
+    events = ["0 years old: Born into a world of silent voices, your first breath was accompanied by a cacophony of thoughts, not yet understood but deeply felt.",
+    "5 years old: The realization that you can hear thoughts dawns on you. The world becomes a symphony of unspoken words.",
+    "10 years old: You learn to distinguish between your thoughts and others', navigating the complex web of emotions and secrets around you.",
+    "15 years old: High school brings a maze of emotions, both heard and unheard, teaching you the depth and weight of human thoughts.",
+    "18 years old: First love introduces you to the beautiful and challenging dance of knowing someone’s heart without a spoken word.",
+    "22 years old: College in psychology, driven by a desire to use your ability to help others, yet constantly grappling with ethical boundaries.",
+    "25 years old: You begin a career in counseling, using your gift to help others, while the weight of unspoken burdens grows.",
+    "30 years old: Marriage to a partner who embraces all of you, including your unique ability, bringing depth and complexity to your relationship.",
+    "35 years old: Parenthood enriches and complicates your life, as you navigate the joys and fears of connecting with your child on an unspoken level.",
+    "40 years old: Your book on emotional understanding, written under a pseudonym, touches lives far and wide, speaking truths only you can know.",
+    "45 years old: A moral crossroads as your ability unveils a hidden danger. Your intervention prevents harm but at a personal cost.",
+    "50 years old: You mentor others like you, guiding them in harnessing and coping with their abilities responsibly.",
+    "55 years old: Retirement from counseling, finding solace in quieter, more introspective pursuits, yet still guided by the whispers of thoughts.",
+    "60 years old: Travel becomes a new chapter, each destination offering a tapestry of thoughts and emotions to learn from.",
+    "65 years old: The waning of your ability brings a bittersweet simplicity, a return to a world where thoughts are private once more.",
+    "70 years old: Your twilight years are spent sharing wisdom on empathy and understanding, a legacy born from a life unlike any other.",
+    "75 years old: Passing away quietly, you leave a world that was always louder for you than for others. Your final moments are serene, surrounded by love, both spoken and unspoken, a fitting farewell to a life lived in the chorus of human thought."];
+  localStorage.setItem('lifeLength', '75');
+}else if(selectedTalents.includes('Eternal youthful')){
+    events = ["0 years old: Born into a seemingly ordinary world, your life begins like any other, filled with the simple joys and challenges of childhood.",
+    "5 years old: Your early years are marked by laughter, play, and a burgeoning curiosity about the world around you.",
+    "10 years old: School days bring new friends, learning, and the first hints of your unique nature, as you seem to rarely fall ill.",
+    "15 years old: As a teenager, you experience the usual tumult of emotions and relationships, but with an underlying sense of being different.",
+    "18 years old: A milestone year. While your friends begin to show signs of maturity and age, you remain physically unchanged. The realization that you are not aging like others slowly dawns on you and your family.",
+    "25 years old: Your eternal youth becomes more apparent. Friends and family age, but you remain 18 in appearance. It's both a blessing and a curse, as relationships begin to feel transient.",
+    "30 years old: You pursue higher education multiple times, adapting to new eras and technologies. Your constant age becomes a well-guarded secret.",
+    "40 years old: You've lived through several generations, witnessing the world change dramatically. You become a silent observer of history, participating but always at a distance.",
+    "50 years old: Love comes and goes. You experience the heartache of outliving partners and the pain of leaving before getting too close.",
+    "65 years old: You choose to travel the world, your ageless condition allowing you to blend in with successive generations easily.",
+    "80 years old: Your life is a tapestry of experiences, yet a sense of isolation persists. You become a benefactor, using your accumulated wealth and knowledge to help others.",
+    "100 years old: You've seen the turn of a century, but to the world, you still appear as a young adult. You become more reclusive, focusing on writing and art.",
+    "125 years old: Technology advances allow you to connect with others like you. A small, hidden community of ageless individuals becomes your new family.",
+    "150 years old: As the world faces new challenges, you use your experience to guide younger generations, becoming a behind-the-scenes influencer in global decisions.",
+    "175 years old: You witness incredible advancements in science and society. The world is a tapestry of the past and the future, and you are a bridge between both.",
+    "200 years old: You choose to explore space, joining a mission to colonize new worlds. The endless frontier offers a new beginning and a chance to belong.",
+    "225 years old: Passing away during the space mission, not from age but from an accident, your life ends as it was lived - reaching for the stars. Your story becomes a legend, an eternal tale of youth, wisdom, and the relentless pursuit of knowledge and adventure."];
+  localStorage.setItem('lifeLength', '225');
+}else if(selectedTalents.includes('Invisibility Cloak')){
+    events = ["0 years old: Born into a world of brightness and noise, your life begins with typical childhood innocence.",
+    "5 years old: Discovering the Invisibility Cloak in an attic chest, your first act is to evade bedtime, an innocent game that sparks a fascination.",
+    "10 years old: You use the cloak to sneak into a cinema, watching movies for free. The thrill is exhilarating but leaves you feeling guilty.",
+    "15 years old: High school brings tougher challenges. You use the cloak to overhear a bully's secrets, exposing them but questioning the morality of your actions.",
+    "18 years old: You face temptation at a party, using the cloak to overhear a crush’s thoughts about you, leading to mixed feelings of excitement and guilt over invading privacy.",
+    "21 years old: In college, a prank goes too far, causing distress to a fellow student. This incident serves as a wake-up call about the consequences of misusing the cloak.",
+    "25 years old: Your world travels under the cloak reveal injustices. You intervene anonymously to right small wrongs, but the burden of untold secrets weighs heavily on you.",
+    "30 years old: As an undercover journalist, you expose a major political scandal. The story is a triumph, but the ethical lines blurred by your invisibility begin to trouble you.",
+    "35 years old: You fall in love, but your secret ability creates a barrier. When your partner nearly discovers the cloak, the resulting argument leads to a painful breakup.",
+    "40 years old: Your child's birth brings joy and fear. You use the cloak to discreetly keep them safe, but the constant vigilance and paranoia strain your mental health.",
+    "45 years old: During a bank robbery, you use the cloak to disarm the criminals, becoming an unseen hero. Yet, the incident leaves you anxious about potential repercussions.",
+    "50 years old: Technological advancements make remaining undetected more difficult. A close call with a security camera forces you to reconsider your use of the cloak.",
+    "55 years old: Struggling with isolation and the moral implications of your power, you consider destroying the cloak but ultimately decide against it.",
+    "60 years old: You use the cloak sparingly, now mostly for observing and understanding rather than direct intervention, embracing a more passive role.",
+    "65 years old: In retirement, you mentor young people in your community, emphasizing ethics and responsibility, your own life a cautionary tale.",
+    "70 years old: Reflecting on a life of shadows and secrets, you recognize both the good and harm you've caused, leaving behind a complex legacy.",
+    "75 years old: Passing away, you conceal the cloak, ensuring it cannot be misused. Your life’s end is marked by a sense of peace, having grappled with and understood the profound impact of your extraordinary ability."];
+  localStorage.setItem('lifeLength', '75');
+}
+
+else{events = [
+    "0 years old: You passed away before birth.",];
+  localStorage.setItem('lifeLength', '0');
+}
+
+let currentEventIndex = 0;
+
+document.addEventListener('click', function() {
+  if (currentEventIndex < events.length) {
+    let newEvent = document.createElement('div');
+    newEvent.className = 'event'; 
+    newEvent.textContent = events[currentEventIndex];
+    let lifeEventsContainer = document.getElementById('lifeEvents');
+    lifeEventsContainer.appendChild(newEvent);
+
+    lifeEventsContainer.scrollTop = lifeEventsContainer.scrollHeight;
+
+    currentEventIndex++;
+    updateDisplay();
+  } else {
+    if (!document.getElementById('summaryButton')) {
+      let spacer = document.createElement('div');
+      spacer.style.height = '20px'; 
+      document.body.appendChild(spacer);
+
+      let summaryButton = document.createElement('button');
+      summaryButton.id = 'summaryButton';
+      summaryButton.textContent = 'Life Summary';
+      summaryButton.onclick = function() {
+        window.location.href = 'summary.html';
+      };
+      document.body.appendChild(summaryButton);
+    }
+  }
+});
+
+// function increaseSpirit() {
+//     let currentSpirit = parseInt(localStorage.getItem('spirit') || '0');
+//     currentSpirit += 1;
+//     localStorage.setItem('spirit', currentSpirit.toString());
+// }
+
+// function increaseCharm() {
+//     let currentCharm = parseInt(localStorage.getItem('charm') || '0');
+//     currentCharm += 1;
+//     localStorage.setItem('charm', currentCharm.toString());
+// }
+
+// function increaseIntelligence() {
+//     let currentIntelligence = parseInt(localStorage.getItem('intelligence') || '0');
+//     currentIntelligence += 1;
+//     localStorage.setItem('intelligence', currentIntelligence.toString());
+// }
+
+// function decreaseSpirit() {
+//     let currentSpirit = parseInt(localStorage.getItem('spirit') || '0');
+//     currentSpirit -= 1;
+//     localStorage.setItem('spirit', currentSpirit.toString());
+// }
+
+// function updateDisplay() {
+//     document.getElementById('spiritValue').textContent = localStorage.getItem('spirit') || '0';
+//     document.getElementById('charmValue').textContent = localStorage.getItem('charm') || '0';
+//     document.getElementById('intelligenceValue').textContent = localStorage.getItem('intelligence') || '0';
+// }
+
+</script>
+</body>
+</html>

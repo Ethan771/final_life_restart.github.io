@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Talent Draw Card</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #3c4049; 
+    color: white;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120vh;
+  }
+
+  .card-container {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 1em;
+    width: 800px;
+    height: 500px;
+    transition: all 400ms;
+  }
+
+  .card-container.has-selected .card {
+    filter: grayscale(100%) opacity(24%);
+  }
+
+  .card-container.has-selected .card.selected,
+  .card-container.has-selected .card.selected ~ .card {
+      filter: grayscale(0%) opacity(100%);
+  }
+
+  .card.dim {
+    filter: grayscale(100%) opacity(24%);
+  }
+
+
+  .card {
+      position: relative;
+      background: var(--img) center center;
+      background-size: cover;
+      transition: all 400ms;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+
+  .card-container:has(.card-1:hover) {
+    grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
+  }
+
+  .card-container:has(.card-2:hover) {
+    grid-template-columns: 1fr 3fr 1fr 1fr 1fr;
+  }
+
+  .card-container:has(.card-3:hover) {
+    grid-template-columns: 1fr 1fr 3fr 1fr 1fr;
+  }
+
+  .card-container:has(.card-4:hover) {
+    grid-template-columns: 1fr 1fr 1fr 3fr 1fr;
+  }
+
+  .card-container:has(.card-5:hover) {
+    grid-template-columns: 1fr 1fr 1fr 1fr 3fr;
+  }
+
+  .card:nth-child(odd) {
+	transform: translateY(-16px);
+  }
+
+  .card:nth-child(even) {
+    transform: translateY(16px);
+  }
+
+.card::after {
+	content: attr(data-text);
+	position: absolute;
+	bottom: 20px;
+	background: #000;
+	color: #fff;
+	padding: 10px 10px 10px 14px;
+	letter-spacing: 4px;
+	text-transform: uppercase;
+	transform: translateY(60px);
+	opacity: 0;
+	transition: all 400ms;
+}
+
+.card:hover::after {
+	transform: translateY(0);
+	opacity: 1;
+	transition-delay: 400ms;
+}
+
+.button {
+  position: absolute;
+  bottom: -60px; 
+  left: 0;
+  right: 0;
+  width: auto; 
+  padding: 15px;
+  margin-top: 20px;
+  background: #4b5268; 
+  color: white;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+  .button:disabled {
+      background: #3c4049; 
+      color: white; 
+      cursor: default;
+  }
+
+</style>
+</head>
+<body>
+<div class="card-container">
+  <div class="card card-1" style="--img: url(picture/Tao.png);" onclick="selectCard(this, 'Mysterious box')" data-text="Tao"></div>
+  <div class="card card-2" style="--img: url(picture/Young.png);" onclick="selectCard(this, 'Eternal youthful')" data-text="Young"></div>
+  <div class="card card-3" style="--img: url(picture/Tim.png);" onclick="selectCard(this, 'About Time')" data-text="Tim"></div>
+  <div class="card card-4" style="--img: url(picture/Ben.png);" onclick="selectCard(this, 'Benjamin Button')" data-text="Benjamin"></div>
+  <div class="card card-5" style="--img: url(picture/Cobb.png);" onclick="selectCard(this, 'Inception')" data-text="Cobb"></div>
+  <button class="button" id="submit" disabled>Please select your Charactor.</button>
+  <!-- <div class="card" onclick="selectCard(this, 'Invisibility Cloak')">Invisibility Cloak </div>
+  <div class="card" onclick="selectCard(this, 'Doraemon')">Doraemon (Anywhere Door) </div> 
+  <div class="card" onclick="selectCard(this, 'Six Sense')">Six Sense (Mind Reading) </div>
+  <div class="card" onclick="selectCard(this, 'The Lord of the Rings')">The Lord of the Rings </div> -->
+</div>
+
+<script>
+  let selectedCards = [];
+  const submitButton = document.getElementById('submit');
+  
+  function selectCard(cardElement, cardName) {
+    let cards = document.querySelectorAll('.card');
+
+    if (cardElement.classList.contains('selected')) {
+        cardElement.classList.remove('selected');
+        selectedCards = selectedCards.filter(card => card !== cardName);
+        cards.forEach(card => card.classList.remove('dim'));
+    } else if (selectedCards.length < 1) {
+        cards.forEach(card => {
+            card.classList.add('dim');
+        });
+        cardElement.classList.remove('dim');
+        cardElement.classList.add('selected');
+        selectedCards.push(cardName);
+    }
+
+    submitButton.disabled = selectedCards.length !== 1;
+    submitButton.innerText = selectedCards.length === 1 ? 'Submit Selection' : 'Please select 1 Charactor.';
+  }
+
+
+
+  submitButton.addEventListener('click', function() {
+      if (!this.disabled) {
+          localStorage.setItem('selectedTalent', JSON.stringify(selectedCards));
+          window.location.href = 'choose_talent.html';
+      }
+  });
+
+
+  // function shuffleArray(array) {
+  //     for (let i = array.length - 1; i > 0; i--) {
+  //         const j = Math.floor(Math.random() * (i + 1));
+  //         [array[i], array[j]] = [array[j], array[i]];
+  //     }
+  // }
+
+  // function showRandomCards() {
+  //     const cards = document.querySelectorAll('.card-container .card');
+  //     const cardsArray = Array.from(cards);
+  //     shuffleArray(cardsArray);
+
+  //     cardsArray.forEach(card => card.style.display = 'none');
+
+  //     cardsArray.slice(0, 5).forEach(card => card.style.display = 'block');
+  // }
+
+  // window.onload = showRandomCards;
+</script>
+</body>
+</html>

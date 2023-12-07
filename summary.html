@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #3c4049;
+            color: white;
+            background-image: url(picture/sky3.png); 
+            background-size: cover;
+            padding: 20px;
+        }
+        .container {
+            background-color: rgba(80, 86, 94, 0.5);
+            padding: 20px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .highlight {
+            background-color: #6a0dad;
+        }
+        #start-again-button {
+            display: inline-block;
+            background-color: #61afef; 
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease;
+        }
+        #summaryButton:hover {
+            background-color: #5288c4; 
+        }
+    </style>
+</head>
+<body>
+    <div id="attributesDisplay">
+        <div class="container">Charm: <span id="charmValue">0</span></div>
+        <div class="container">Intelligence: <span id="intelligenceValue">0</span></div>
+        <div class="container">Strength: <span id="strengthValue">0</span></div>
+        <div class="container">Money: <span id="moneyValue">0</span></div>
+        <div class="container">Life-length: <span id="lifeLengthValue">0</span></div>
+        <div class="container">Total Points: <span id="totalPointsValue">0</span></div>
+    </div>
+      
+    <div id="lifeEvents">
+        <!-- Life events will be displayed here -->
+    </div>
+      
+      
+    <script>
+
+        let charm = parseInt(localStorage.getItem('charm') || '0');
+        let intelligence = parseInt(localStorage.getItem('intelligence') || '0');
+        let strength = parseInt(localStorage.getItem('strength') || '0');
+        let money = parseInt(localStorage.getItem('money') || '0');
+        let lifeLength = parseInt(localStorage.getItem('lifeLength') || '0');
+        
+        // Retrieve attributes from localStorage
+        document.getElementById('charmValue').textContent = localStorage.getItem('charm') || '0';
+        document.getElementById('intelligenceValue').textContent = localStorage.getItem('intelligence') || '0';
+        document.getElementById('strengthValue').textContent = localStorage.getItem('strength') || '0';
+        document.getElementById('moneyValue').textContent = localStorage.getItem('money') || '0';
+        document.getElementById('lifeLengthValue').textContent = localStorage.getItem('lifeLength') || '0';
+        let totalPoints = charm + intelligence + strength + money + lifeLength;
+        document.getElementById('totalPointsValue').textContent = totalPoints;
+
+    </script>
+
+    <a href="index.html" id="start-again-button">Start Again</a>
+
+</body>
+</html>
+

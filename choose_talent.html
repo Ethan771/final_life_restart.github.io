@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adjust Initial Attributes</title>
+<style>
+  body {
+      font-family: 'Open Sans', Arial, sans-serif;
+      background-color: #282c34; 
+      color: #abb2bf; 
+      background-image: url(picture/sky2.png); 
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+  }
+  .attributes-container {
+    width: 80%;
+    max-width: 600px;
+  }
+  .attribute {
+    background-color: rgba(80, 86, 94, 0.5);
+    margin-bottom: 10px;
+    padding: 20px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #d1d1d1;
+  }
+  .attribute label {
+    flex-grow: 1;
+  }
+  .slider-container {
+    margin: 0 20px;
+    flex-grow: 2;
+  }
+  .slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;
+    background: #4b5268;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #61afef;
+    cursor: pointer;
+  }
+  .slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #61afef;
+    cursor: pointer;
+  }
+  .talent-container {
+    background-color: rgba(80, 86, 94, 0.5);
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    color: #d1d1d1;
+  }
+  .button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    background: #4b5268;
+    color: white;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+    <div class="attributes-container">
+        <h2>Adjust initial attributes</h2>
+        <div>Remaining attribute point: <span id="remaining-points">20</span></div>
+        <div class="attribute">
+          <label for="charm">charm index</label>
+          <div class="slider-container">
+            <input type="range" min="0" max="10" value="0" class="slider" id="charm">
+          </div>
+        </div>
+        <div class="attribute">
+          <label for="intelligence">intelligence</label>
+          <div class="slider-container">
+            <input type="range" min="0" max="10" value="0" class="slider" id="intelligence">
+          </div>
+        </div>
+        <div class="attribute">
+          <label for="strength">strength</label>
+          <div class="slider-container">
+            <input type="range" min="0" max="10" value="0" class="slider" id="strength">
+          </div>
+        </div>
+        <div class="attribute">
+          <label for="money">family money situation</label>
+          <div class="slider-container">
+            <input type="range" min="0" max="10" value="0" class="slider" id="money">
+          </div>
+        </div>
+    </div>    
+      
+<div class="talent-container">
+    <h3>Selected Talent</h3>
+    <div id="talents"></div>
+</div>
+<button class="button" id="startButton">Start a new life</button>
+  
+  <script>
+    const selectedTalents = JSON.parse(localStorage.getItem('selectedTalent')) || [];
+    const talentsContainer = document.getElementById('talents');
+
+    let sliders = document.querySelectorAll('.slider');
+    let remainingPoints = document.getElementById('remaining-points');
+    let totalPoints = 20;
+      
+    sliders.forEach(function(slider) {
+      slider.addEventListener('input', function() {
+        updateRemainingPoints();
+      });
+    });
+  
+    selectedTalents.forEach(talent => {
+      const div = document.createElement('div');
+      div.textContent = talent;
+      talentsContainer.appendChild(div);
+    });
+
+    let startButton = document.getElementById('startButton');
+    startButton.addEventListener('click', function() {
+    let currentRemainingPoints = parseInt(remainingPoints.textContent, 10);
+
+    if (currentRemainingPoints === 0) {
+      window.location.href = 'life.html';
+    } else {
+      alert('The attribute points are not fully allocated. Please use all your points before starting a new life.');
+    }
+  });
+
+    function saveAttributes() {
+        sliders.forEach(function(slider) {
+        localStorage.setItem(slider.id, slider.value);
+        });
+    }
+
+    function updateRemainingPoints() {
+        let usedPoints = 0;
+        sliders.forEach(function(slider) {
+          usedPoints += parseInt(slider.value, 10);
+        });
+        remainingPoints.textContent = totalPoints - usedPoints;
+        saveAttributes();
+    }
+  </script>
+  
+</body>
+</html>
