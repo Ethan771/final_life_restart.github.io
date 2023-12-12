@@ -7,4 +7,6 @@ Since I don't have time to complete all the stories, I only create 13 branches o
 These stories are based on the choose of charactor and the select of attributes.
 The design of choosing charactor page is from another designer which is also a open source design code.
 The images I used in this website are all generate from the Chatgpt.
-https://ethan771.github.io/final_life_restart.github.io/
+Link to this project: https://ethan771.github.io/final_life_restart.github.io/
+References: https://github.com/VickScarlet/lifeRestart
+
